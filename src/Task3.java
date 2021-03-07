@@ -2,11 +2,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Task3 {
+
     public void processFile() {
         String fileName = "Test3.txt";
         File file = new File(fileName);
@@ -16,7 +15,7 @@ public class Task3 {
         }
 
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
-            ArrayList<String> arr = new ArrayList<>();
+            List<String> arr = new ArrayList<>();
             String line = buffer.readLine(); // построчное считывание потока (файла), разбиение строки на массив слов, запись в общий массив
 
             while (line != null){
@@ -30,7 +29,7 @@ public class Task3 {
                 int counter = 1;
 
                 if (i == arr.size() - 1) {
-                    arr.set(i, arr.get(i) + " " + counter);
+                    arr.set(i, counter + " " + arr.get(i));
                     continue;
                 }
 
@@ -41,31 +40,18 @@ public class Task3 {
                         counter++;
                     }
                 }
-                arr.set(i, arr.get(i) + " " + counter);
+                arr.set(i, counter + " " + arr.get(i));
             }
 
-            // сортировка по добавленному в конец каждого слова счетчику
-            for (int i = 0; i < arr.size(); i++) {
-                int tempIndex = i;
-
-                for (int j = 0; j < arr.size(); j++) {
-                    if (arr.get(tempIndex).charAt(arr.get(tempIndex).length() - 1) < arr.get(j).charAt(arr.get(j).length() - 1)) {
-                        arr.add(j + 1, arr.get(tempIndex));
-
-                        if (j > tempIndex) {
-                            arr.remove(tempIndex);
-                            tempIndex = j;
-                        }
-                        else {
-                            arr.remove(tempIndex + 1);
-                            tempIndex = j + 1;
-                        }
-                    }
+            // сортировка по добавленному счетчику
+            arr.sort(new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    int a = new Scanner(o1).nextInt();
+                    int b = new Scanner(o2).nextInt();
+                    return Integer.compare(b, a);
                 }
-                if (tempIndex > i){
-                    i--;
-                }
-            }
+            });
 
             // вывод
             for (String s : arr) {
