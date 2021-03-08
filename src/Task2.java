@@ -3,19 +3,20 @@ import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Task2 {
-    public void processFile() {
-        String sourceFileName = "Test2.txt";
-        File sourceFile = new File(sourceFileName);
+    public void processFile(String fileName) {
+        File sourceFile = new File(fileName);
         List<User> userList = new ArrayList<>();
 
         if (!sourceFile.exists()) {
-            throw new RuntimeException("Файл " + sourceFileName + " не найден");
+            throw new RuntimeException("Файл " + fileName + " не найден");
         }
 
-        try (BufferedReader toRead = new BufferedReader(new FileReader(sourceFileName))) {
+        try (BufferedReader toRead = new BufferedReader(new FileReader(fileName))) {
             String line = toRead.readLine();
 
             while (line != null){
@@ -33,11 +34,9 @@ public class Task2 {
 
         try (BufferedWriter toWrite = new BufferedWriter(new FileWriter(resultFile))) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            for (User temp : userList){
-                String line = gson.toJson(temp);
-                toWrite.append(line);
-            }
+            List<String> jsonArr = new ArrayList<>();
+            userList.forEach(user -> jsonArr.add(gson.toJson(user)));
+            toWrite.append(jsonArr.toString());
         }
         catch (IOException e) {
             System.out.println(e.getMessage());

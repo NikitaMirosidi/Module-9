@@ -6,8 +6,7 @@ import java.util.*;
 
 public class Task3 {
 
-    public void processFile() {
-        String fileName = "Test3.txt";
+    public void processFile(String fileName) {
         File file = new File(fileName);
 
         if (!file.exists()) {
@@ -44,19 +43,14 @@ public class Task3 {
             }
 
             // сортировка по добавленному счетчику
-            arr.sort(new Comparator<String>() {
-                @Override
-                public int compare(String o1, String o2) {
-                    int a = new Scanner(o1).nextInt();
-                    int b = new Scanner(o2).nextInt();
-                    return Integer.compare(b, a);
-                }
+            arr.sort((o1, o2) -> {
+                int a = new Scanner(o1).nextInt();
+                int b = new Scanner(o2).nextInt();
+                return Integer.compare(b, a);
             });
 
             // вывод
-            for (String s : arr) {
-                System.out.println(s);
-            }
+            arr.forEach(System.out::println);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
