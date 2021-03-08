@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class Task2 {
     public void processFile(String fileName) {
@@ -34,8 +35,10 @@ public class Task2 {
 
         try (BufferedWriter toWrite = new BufferedWriter(new FileWriter(resultFile))) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            List<String> jsonArr = new ArrayList<>();
-            userList.forEach(user -> jsonArr.add(gson.toJson(user)));
+
+            List<String> jsonArr = userList.stream().
+                    map(gson::toJson)
+                    .collect(Collectors.toList());
             toWrite.append(jsonArr.toString());
         }
         catch (IOException e) {
