@@ -44,14 +44,20 @@ public class Task3 {
             }
 
             // сортировка по добавленному счетчику
-            arr.sort((o1, o2) -> {
+            arr = arr.stream()
+                    .sorted(Comparator.comparing(s -> new Scanner(s).nextInt()))
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
+
+            /*arr.sort((o1, o2) -> {
                 int a = new Scanner(o1).nextInt();
                 int b = new Scanner(o2).nextInt();
                 return Integer.compare(b, a);
-            });
+            });*/
 
             // вывод
             arr.forEach(System.out::println);
+
         }
         catch (IOException e) {
             System.out.println(e.getMessage());

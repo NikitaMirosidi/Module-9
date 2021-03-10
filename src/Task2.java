@@ -30,7 +30,7 @@ public class Task2 {
             System.out.println(e.getMessage());
         }
 
-        String resultFileName = "Test2_result.txt";
+        String resultFileName = "Test2_result.json";
         File resultFile = new File(resultFileName);
 
         try (BufferedWriter toWrite = new BufferedWriter(new FileWriter(resultFile))) {
